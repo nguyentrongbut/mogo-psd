@@ -1,0 +1,110 @@
+mixin menuLink(data)
+	li.header-menu-item
+		a.header-menu-link(href= data.href)= data.title 
+
+mixin headerBottomItem(data)
+	.header-bottom-item
+		span.header-bottom-number= data.number
+		span.header-bottom-text= data.title 
+
+mixin blockBox(data)
+	.block-box
+		h3.block-box-caption= data.caption
+		h2.block-box-heading= data.title
+		if data.desc
+			p.block-box-desc= data.desc
+
+//- data (object) = {src: "", alt: "", icon: "", title: ""} --> data.src
+mixin aboutItem(data)
+	.about-item
+		img.about-image(src= data.src, alt= data.alt)
+		.about-content
+			i.about-icon(class = data.icon)
+			span.about-title= data.title
+
+mixin serviceItem(data)
+	.service-item
+		img.service-item-icon(src= data.src)
+		.service-item-info
+			h3.service-item-title= data.title
+			p.service-item-desc= data.desc
+
+mixin wedoItem(data)
+	.wedo-item(class= data.active)
+		.wedo-item-header
+			img.wedo-item-icon(src= data.src)
+			h3.wedo-item-title= data.title
+			i.fal.fa-angle-down.wedo-item-arrow
+		.wedo-item-content 
+			.wedo-item-text= data.desc
+
+mixin teamSocial(data)
+	ul.team-social
+		li.team-social-item
+			a.team-social-link(href= data.facebook)
+				i.fab.fa-facebook-f
+		li.team-social-item
+			a.team-social-link(href= data.twitter)
+				i.fab.fa-twitter
+		li.team-social-item
+			a.team-social-link(href= data.pinterest)
+				i.fab.fa-pinterest
+		li.team-social-item
+			a.team-social-link(href= data.instagram)
+				i.fab.fa-instagram
+
+mixin teamItem(data)
+	.team-item
+		.team-main
+			img(src= data.src).team-img
+			.team-content
+				if block 
+					block
+		.team-info
+			h3.team-name= data.name
+			span.team-position= data.position
+
+mixin workItem(data)
+	.work-item(class= data.full)
+		img.work-img(src= data.src)
+		.work-content
+			i.work-icon(class= data.icon)
+			h3.work-title= data.title
+			span.work-desc.text.text--light= data.desc
+
+mixin peopleItem(data)
+	li.people-item
+		img.people-avatar(src= data.src)
+		.people-info
+			h3.people-name= data.name
+			span.people-job.text.text--light= data.job
+			p.people-desc.text= data.desc
+
+mixin storyItem(data)
+	li.story-item
+		.story-media
+			img.story-img(src= data.src)
+			.story-date
+				span.story-date-number= data.dateNumber
+				span.story-date-text.text.text--light= data.dateText
+		h3.story-title= data.title
+		.story-desc.text= data.desc
+			p.story-desc-inner 
+		.story-meta
+			.story-meta-item
+				i.fa.fa-eye.story-meta-icon
+				span.story-meta-number.text= data.view
+			.story-meta-item 
+				i.fa.fa-comment.story-meta-icon
+				span.story-meta-number.text= data.comment
+
+mixin quoteItem(data)
+	.quote-item 
+		if data.type == false
+			.quote-icon
+				img(src= data.src)
+		else
+			img(src= data.src).quote-img
+		.quote-info
+			p.quote-desc= data.desc
+			span.quote-author= data.author

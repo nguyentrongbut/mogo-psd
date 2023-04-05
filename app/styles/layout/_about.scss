@@ -1,0 +1,52 @@
+.about {
+    padding-top: 9.3rem;
+    padding-bottom: 11rem;
+    background-color: #fff;
+    // flexbox
+    // &-list {
+    //     display: flex;
+    //     flex-wrap: wrap;
+    //     margin-left: -3rem;
+    // }
+    // &-item {
+    //     margin-left: 3rem;
+    //     width: calc(33.33% - 3rem);
+    // }
+    // grid
+    &-list {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-column-gap: 3rem;
+    }
+    &-content {
+        color: #fff;
+        text-transform: uppercase;
+        text-align: center;
+        line-height: 1.4;
+        padding: 2rem;
+    }
+    &-icon {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+    }
+    &-title {
+        font-weight: bold;
+        font-size: 1.8rem;
+        @include textClamp;
+    }
+    @include maxWidth(767px) {
+        padding-top: 5rem;
+        padding-bottom: 5rem;
+        //flexbox responsive about-list
+        // &-item {
+        //     width: 100%;
+        //     margin-bottom: 2.5rem;
+        // }
+
+        //grid
+    &-list {
+        @include touchSlider();
+    }
+}
+}
+@include hoverEffect(".about-item", ".about-content");

@@ -1,0 +1,187 @@
+//truyền vào 2 giá trị width, height
+@mixin size($width, $height: $width) {
+    width: $width;
+    height: $height;
+}
+//absolute Center
+/*
+position: absolute;
+	center theo chiều ngang
+	left: 50%;
+	transform: translateY(-50%);
+
+	center theo chiều dọc
+	top: 50%;
+	transform: translateY(-50%);
+
+	center 2 chiều
+	top:50%;
+	left:50%;
+	transform: translate(-50%, -50%);
+*/
+@mixin absoluteCenter($direction: "left") {
+    position: absolute;
+    @if $direction == "left" {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    @if $direction == "top" {
+        top: 50%;
+        transform: translateY(-50%);
+    }
+    @if $direction == "both" {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+}
+//background-color
+@mixin bg($color: red) {
+    background-color: $color;
+}
+//absolute full
+@mixin absoluteFull() {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+@mixin maxWidth($breakpoint) {
+    @media screen and (max-width: $breakpoint) {
+        @content;
+    }
+}
+@mixin minWidth($breakpoint) {
+    @media screen and (min-width: $breakpoint) {
+        @content;
+    }
+}
+// flexbox
+@mixin flexbox(
+    $alight-items: stretch,
+    $justify-content: flex-start,
+    $direction: row,
+    $flex: flex,
+    $wrap: nowrap
+) {
+    display: flex;
+    align-items: $alight-items;
+    justify-content: $justify-content;
+    flex-direction: $direction;
+    flex-wrap: $wrap;
+}
+//hide scroll
+@mixin hideScroll() {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+//text clamp
+@mixin textClamp($rows: 1, $size: 100%) {
+    display: -webkit-box;
+    -webkit-line-clamp: $rows;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: $size;
+    max-width: $size;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+@mixin hoverEffect($itemClass, $contentClass, $transform: "true") {
+    #{$itemClass} {
+        position: relative;
+        z-index: 1;
+        transition: all 0.25s linear;
+        will-change: transform;
+        #{$contentClass} {
+            @include absoluteFull();
+            @include flexbox(center, center, column);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.25s linear;
+            background: linear-gradient(
+                to bottom,
+                /* từ trên xuống dưới */ rgba($primary-color, 0.8),
+                rgba($secondary-color, 0.8)
+            );
+            z-index: 2;
+        }
+        @if $transform == "true" {
+            &:after {
+                content: "";
+                @include absoluteFull();
+                @include bg($third-color);
+                z-index: -1;
+                transition: all 0.25s linear;
+                will-change: transform;
+            }
+        }
+        &:hover {
+            #{$contentClass} {
+                opacity: 1;
+                visibility: visible;
+                cursor: pointer;
+            }
+            @if $transform == "true" {
+                transform: translate(-1rem, -1rem);
+                &:after {
+                    transform: translate(1rem, 1rem);
+                }
+            }
+        }
+    }
+}
+
+@mixin touchSlider($width: 80%, $gap: 2.5rem, $padding: 1rem) {
+    display: grid;
+    justify-content: flex-start;
+    grid-auto-columns: $width;
+    grid-auto-flow: column;
+    grid-template-columns: unset;
+    grid-column-gap: $gap;
+    overflow-x: auto;
+    padding: $padding;
+    scroll-snap-type: x mandatory;
+    scroll-snap-stop: always;
+    @include hideScroll;
+    & > * {
+        scroll-snap-align: start;
+        width: auto;
+    }
+}
+
+// @mixin flexbox(
+//     $alight-items: stretch,
+//     $justify-content: flex-start,
+//     $direction: row,
+//     $flex: flex,
+//     $wrap: nowrap
+// ) {
+//     display: flex;
+//     align-items: $alight-items;
+//     justify-content: $justify-content;
+//     flex-direction: $direction;
+//     flex-wrap: $wrap;
+// }
+@mixin flexbox2($config: ()) {
+    $config: extend(
+			(
+				alignItems: stretch,
+				justifyContent: flex-start,
+				flex-direction: row,
+				display: flex,
+				flex-wrap: nowrap
+			),
+			$config
+	);
+		display: map-get($config, display);
+    align-items:	map-get($config, alignItems);
+    justify-content: map-get($config, justifyContent);
+    flex-direction: map-get($config, flex-direction);
+    flex-wrap: map-get($config, flex-wrap);
+}
